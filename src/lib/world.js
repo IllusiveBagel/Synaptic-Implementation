@@ -1,4 +1,5 @@
 import { Creature } from "./creature";
+import { isMobile } from "react-device-detect";
 
 export function blastoff(canvas)
 {
@@ -7,8 +8,14 @@ export function blastoff(canvas)
 	var num = 20;
 	var fps = 100;
 
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	if(isMobile) {
+		canvas.width = window.screen.width;
+		canvas.height = window.screen.height;
+	}
+	else {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+	}
 
 	var world = {
 		creatures: [],
