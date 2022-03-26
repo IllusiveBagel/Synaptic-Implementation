@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/synaptic/static/css/main.417af1a8.css",
+    "main.js": "/synaptic/static/js/main.d03f6157.js",
+    "static/js/787.56f3b192.chunk.js": "/synaptic/static/js/787.56f3b192.chunk.js",
+    "index.html": "/synaptic/index.html",
+    "main.417af1a8.css.map": "/synaptic/static/css/main.417af1a8.css.map",
+    "main.d03f6157.js.map": "/synaptic/static/js/main.d03f6157.js.map",
+    "787.56f3b192.chunk.js.map": "/synaptic/static/js/787.56f3b192.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.417af1a8.css",
+    "static/js/main.d03f6157.js"
+  ]
+}
