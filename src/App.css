@@ -4,3 +4,19 @@
   width: 100vw;
   height: 100vh;
 }
+
+.Title {
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  color: white;
+}
+
+.Desc {
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  color: white;
+}
