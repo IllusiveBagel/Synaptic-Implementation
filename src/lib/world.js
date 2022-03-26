@@ -74,7 +74,7 @@ export function blastoff(canvas)
 			// draw
 			creature.draw();
 		});
-		if (window.location.pathname === "/")
+		if (window.location.pathname === "/Synaptic-Implementation")
 			setTimeout(loop, 1000/fps);
 	}
 
