@@ -1,26 +1,41 @@
 import { Architect } from "synaptic";
-import { Vector } from "./vector";
+import { ICreature, IVector, IWorld } from "./Interfaces";
+import { Vector } from "./Vector";
 
-export function Creature(world, x, y) {
-	this.network = new Architect.Perceptron(40, 25, 3);
-	this.world = world;
-	this.mass = .3;
-	this.maxspeed = 2;
-	this.maxforce = .2;
-	this.lookRange = this.mass * 200;
-	this.length = this.mass * 10;
-	this.base = this.length * .5;
-	this.HALF_PI = Math.PI * .5;
-	this.TWO_PI = Math.PI * 2;
-	this.location = new Vector(x, y);
-	this.velocity = new Vector(0, 0);
-	this.acceleration = new Vector(0, 0);
-	this.color = "#0066ff";
-}
+export class Creature implements ICreature {
+	network: Architect.Perceptron;
+	world: IWorld;
+	mass: number;
+	maxspeed: number;
+	maxforce: number;
+	lookRange: number;
+	length: number;
+	base: number;
+	HALF_PI: number;
+	TWO_PI: number;
+	location: IVector;
+	velocity: IVector;
+	acceleration: IVector;
+	color: string;
 
-Creature.prototype = {
+	constructor(world: IWorld, x: number, y: number) {
+		this.network = new Architect.Perceptron(40, 25, 3);
+		this.world = world;
+		this.mass = .3;
+		this.maxspeed = 2;
+		this.maxforce = .2;
+		this.lookRange = this.mass * 200;
+		this.length = this.mass * 10;
+		this.base = this.length * .5;
+		this.HALF_PI = Math.PI * .5;
+		this.TWO_PI = Math.PI * 2;
+		this.location = new Vector(x, y);
+		this.velocity = new Vector(0, 0);
+		this.acceleration = new Vector(0, 0);
+		this.color = "#0066ff";
+	}
 
-	moveTo: function (networkOutput) {
+	moveTo(networkOutput: any) {
 		var force = new Vector(0, 0);
 
 		var target = new Vector(networkOutput[0] * this.world.width, networkOutput[1] * this.world.height);
@@ -35,37 +50,40 @@ Creature.prototype = {
 		force.add(cohesion);
 
 		this.applyForce(force);
-	},
+	}
 
-	draw: function () {
+	draw() {
 		this.update();
 
 		var ctx = this.world.context;
-		ctx.lineWidth = 1;
 
-		var angle = this.velocity.angle();
+		if (ctx !== null) {
+			ctx.lineWidth = 1;
 
-		const x1 = this.location.x + Math.cos(angle) * this.base;
-		const y1 = this.location.y + Math.sin(angle) * this.base;
+			var angle = this.velocity.angle();
 
-		const x2 = this.location.x + Math.cos(angle + this.HALF_PI) * this.base;
-		const y2 = this.location.y + Math.sin(angle + this.HALF_PI) * this.base;
+			const x1 = this.location.x + Math.cos(angle) * this.base;
+			const y1 = this.location.y + Math.sin(angle) * this.base;
 
-		const x3 = this.location.x + Math.cos(angle - this.HALF_PI) * this.base;
-		const y3 = this.location.y + Math.sin(angle - this.HALF_PI) * this.base;
+			const x2 = this.location.x + Math.cos(angle + this.HALF_PI) * this.base;
+			const y2 = this.location.y + Math.sin(angle + this.HALF_PI) * this.base;
 
-		ctx.lineWidth = 2;
-		ctx.fillStyle = this.color;
-		ctx.strokeStyle = this.color;
-		ctx.beginPath();
-		ctx.moveTo(x1, y1);
-		ctx.lineTo(x2, y2);
-		ctx.lineTo(x3, y3);
-		ctx.stroke();
-		ctx.fill();
-	},
+			const x3 = this.location.x + Math.cos(angle - this.HALF_PI) * this.base;
+			const y3 = this.location.y + Math.sin(angle - this.HALF_PI) * this.base;
 
-	update: function () {
+			ctx.lineWidth = 2;
+			ctx.fillStyle = this.color;
+			ctx.strokeStyle = this.color;
+			ctx.beginPath();
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.lineTo(x3, y3);
+			ctx.stroke();
+			ctx.fill();
+		}
+	}
+
+	update() {
 		this.boundaries();
 		this.velocity.add(this.acceleration);
 		this.velocity.limit(this.maxspeed);
@@ -73,14 +91,13 @@ Creature.prototype = {
 			this.velocity.setMag(1.5);
 		this.location.add(this.velocity);
 		this.acceleration.mul(0);
-	},
+	}
 
-	applyForce: function (force) {
+	applyForce(force: IVector) {
 		this.acceleration.add(force);
-	},
+	}
 
-	boundaries: function () {
-
+	boundaries() {
 		if (this.location.x < 15)
 			this.applyForce(new Vector(this.maxforce * 2, 0));
 
@@ -92,19 +109,18 @@ Creature.prototype = {
 
 		if (this.location.y > this.world.height - 15)
 			this.applyForce(new Vector(0, -this.maxforce * 2));
+	}
 
-	},
-
-	seek: function (target) {
+	seek(target: IVector) {
 		var seek = target.copy().sub(this.location);
 		seek.normalize();
 		seek.mul(this.maxspeed);
 		seek.sub(this.velocity).limit(0.3);
 
 		return seek;
-	},
+	}
 
-	separate: function (neighboors) {
+	separate(neighboors: ICreature[]) {
 		var sum = new Vector(0, 0);
 		var count = 0;
 
@@ -130,9 +146,9 @@ Creature.prototype = {
 		sum.limit(this.maxforce);
 
 		return sum.mul(2);
-	},
+	}
 
-	align: function (neighboors) {
+	align(neighboors: ICreature[]) {
 		var sum = new Vector(0, 0);
 		var count = 0;
 		for (var i in neighboors) {
@@ -149,9 +165,9 @@ Creature.prototype = {
 		sum.sub(this.velocity).limit(this.maxspeed);
 
 		return sum.limit(.1);
-	},
+	}
 
-	cohesion: function (neighboors) {
+	cohesion(neighboors: ICreature[]) {
 		var sum = new Vector(0, 0);
 		var count = 0;
 		for (var i in neighboors) {
@@ -165,4 +181,4 @@ Creature.prototype = {
 
 		return sum;
 	}
-};
+}

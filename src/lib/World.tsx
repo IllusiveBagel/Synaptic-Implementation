@@ -1,4 +1,4 @@
-import { Creature } from "./creature";
+import { Creature } from "./Creature";
 import { isMobile } from "react-device-detect";
 import { IWorld } from "./Interfaces";
 

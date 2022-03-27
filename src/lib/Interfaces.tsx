@@ -1,5 +1,5 @@
 import { Architect } from "synaptic";
-import { Creature } from "./creature";
+import { Creature } from "./Creature";
 
 // Interfaces
 export interface IWorld {
@@ -24,14 +24,18 @@ export interface ICreature {
     velocity: IVector;
     acceleration: IVector;
     color: string;
+    moveTo: AnyAnyFunction;
+    draw: VoidFunction;
+    update: VoidFunction;
+    applyForce: VectorVoidFunction;
+    boundaries: VoidFunction;
+    seek: VectorVectorFunction;
+    separate: CreatureArrayVectorFunction;
+    align: CreatureArrayVectorFunction;
+    cohesion: CreatureArrayVectorFunction;
 }
 
 export interface IVector {
-    x: number;
-    y: number;
-}
-
-export interface IVectorInterface {
     x: number;
     y: number;
     set: CoordinateVectorFunction;
@@ -55,18 +59,26 @@ export interface IVectorInterface {
 }
 
 // Types
-type CoordinateVectorFunction = (x: number, y: number) => IVectorInterface;
+type CoordinateVectorFunction = (x: number, y: number) => IVector;
 
-type VectorVectorFunction = (v: IVectorInterface) => IVectorInterface;
+type VectorVectorFunction = (v: IVector) => IVector;
 
-type NumberVectorFunction = (s: number) => IVectorInterface;
+type NumberVectorFunction = (s: number) => IVector;
 
 type NumberFunction = () => number;
 
-type VectorFunction = () => IVectorInterface;
+type VectorFunction = () => IVector;
 
-type VectorNumberFunction = (v: IVectorInterface) => number;
+type VectorNumberFunction = (v: IVector) => number;
 
-type VectorNumberVectorFunction = (v: IVectorInterface, amt: number) => IVectorInterface;
+type VectorNumberVectorFunction = (v: IVector, amt: number) => IVector;
 
 type AnyFunction = () => any;
+
+type AnyAnyFunction = (a: any) => any;
+
+type VoidFunction = () => void;
+
+type VectorVoidFunction = (v: IVector) => void;
+
+type CreatureArrayVectorFunction = (c: ICreature[]) => IVector;

@@ -1,6 +1,6 @@
-import { IVectorInterface } from "./Interfaces";
+import { IVector } from "./Interfaces";
 
-export class Vector implements IVectorInterface {
+export class Vector implements IVector {
 	x: number;
 	y: number;
 
@@ -16,14 +16,14 @@ export class Vector implements IVectorInterface {
 		return this;
 	}
 
-	add(v: IVectorInterface) {
+	add(v: IVector) {
 		this.x += v.x;
 		this.y += v.y;
 
 		return this;
 	}
 
-	sub(v: IVectorInterface) {
+	sub(v: IVector) {
 		this.x -= v.x;
 		this.y -= v.y;
 
@@ -89,22 +89,22 @@ export class Vector implements IVectorInterface {
 		return this;
 	}
 
-	angleBetween(v: IVectorInterface) {
+	angleBetween(v: IVector) {
 		return this.angle() - v.angle();
 	}
 
-	dot(v: IVectorInterface) {
+	dot(v: IVector) {
 		return this.x * v.x + this.y * v.y;
 	}
 
-	lerp(v: IVectorInterface, amt: number) {
+	lerp(v: IVector, amt: number) {
 		this.x += (v.x - this.x) * amt;
 		this.y += (v.y - this.y) * amt;
 
 		return this;
 	}
 
-	dist(v: IVectorInterface) {
+	dist(v: IVector) {
 		var dx = this.x - v.x;
 		var dy = this.y - v.y;
 
