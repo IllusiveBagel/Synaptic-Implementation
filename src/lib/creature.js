@@ -1,8 +1,7 @@
-import { Vector } from "./vector";
 import { Architect } from "synaptic";
+import { Vector } from "./vector";
 
-export function Creature(world, x, y)
-{
+export function Creature(world, x, y) {
 	this.network = new Architect.Perceptron(40, 25, 3);
 	this.world = world;
 	this.mass = .3;
@@ -21,8 +20,8 @@ export function Creature(world, x, y)
 
 Creature.prototype = {
 
-	moveTo: function(networkOutput){
-		var force = new Vector(0,0);
+	moveTo: function (networkOutput) {
+		var force = new Vector(0, 0);
 
 		var target = new Vector(networkOutput[0] * this.world.width, networkOutput[1] * this.world.height);
 		var angle = (networkOutput[2] * this.TWO_PI) - Math.PI;
@@ -38,8 +37,7 @@ Creature.prototype = {
 		this.applyForce(force);
 	},
 
-	draw: function()
-	{
+	draw: function () {
 		this.update();
 
 		var ctx = this.world.context;
@@ -61,31 +59,28 @@ Creature.prototype = {
 		ctx.strokeStyle = this.color;
 		ctx.beginPath();
 		ctx.moveTo(x1, y1);
-		ctx.lineTo(x2,y2);
-		ctx.lineTo(x3,y3);
+		ctx.lineTo(x2, y2);
+		ctx.lineTo(x3, y3);
 		ctx.stroke();
 		ctx.fill();
 	},
 
-	update: function()
-	{
+	update: function () {
 		this.boundaries();
 		this.velocity.add(this.acceleration);
-	    this.velocity.limit(this.maxspeed);
-	    if(this.velocity.mag() < 1.5)
-	    	this.velocity.setMag(1.5);
-	    this.location.add(this.velocity);
-	    this.acceleration.mul(0);
+		this.velocity.limit(this.maxspeed);
+		if (this.velocity.mag() < 1.5)
+			this.velocity.setMag(1.5);
+		this.location.add(this.velocity);
+		this.acceleration.mul(0);
 	},
 
-	applyForce: function(force)
-	{
+	applyForce: function (force) {
 		this.acceleration.add(force);
 	},
 
-	boundaries: function()
-	{
-		
+	boundaries: function () {
+
 		if (this.location.x < 15)
 			this.applyForce(new Vector(this.maxforce * 2, 0));
 
@@ -97,31 +92,26 @@ Creature.prototype = {
 
 		if (this.location.y > this.world.height - 15)
 			this.applyForce(new Vector(0, -this.maxforce * 2));
-		
+
 	},
 
-	seek: function(target)
-	{
-		var seek = target.copy().sub(this.location)
+	seek: function (target) {
+		var seek = target.copy().sub(this.location);
 		seek.normalize();
 		seek.mul(this.maxspeed);
 		seek.sub(this.velocity).limit(0.3);
-		
+
 		return seek;
 	},
 
-	separate: function(neighboors)
-	{
-		var sum = new Vector(0,0);
+	separate: function (neighboors) {
+		var sum = new Vector(0, 0);
 		var count = 0;
 
-		for (var i in neighboors)
-		{
-			if (neighboors[i] !== this)
-			{	
-				var d = this.location.dist(neighboors[i].location)
-				if (d < 24 && d > 0)
-				{
+		for (var i in neighboors) {
+			if (neighboors[i] !== this) {
+				var d = this.location.dist(neighboors[i].location);
+				if (d < 24 && d > 0) {
 					var diff = this.location.copy().sub(neighboors[i].location);
 					diff.normalize();
 					diff.div(d);
@@ -129,31 +119,29 @@ Creature.prototype = {
 					count++;
 				}
 			}
-		}	
+		}
 		if (!count)
 			return sum;
 
 		sum.div(count);
 		sum.normalize();
 		sum.mul(this.maxspeed);
-		sum.sub(this.velocity)
+		sum.sub(this.velocity);
 		sum.limit(this.maxforce);
 
 		return sum.mul(2);
 	},
 
-	align: function(neighboors)
-	{
-		var sum = new Vector(0,0);
+	align: function (neighboors) {
+		var sum = new Vector(0, 0);
 		var count = 0;
-		for (var i in neighboors)
-		{
+		for (var i in neighboors) {
 			if (neighboors[i] !== this)// && !neighboors[i].special)
 			{
 				sum.add(neighboors[i].velocity);
 				count++;
 			}
-		}	
+		}
 		sum.div(count);
 		sum.normalize();
 		sum.mul(this.maxspeed);
@@ -163,20 +151,18 @@ Creature.prototype = {
 		return sum.limit(.1);
 	},
 
-	cohesion: function(neighboors)
-	{
-		var sum = new Vector(0,0);
+	cohesion: function (neighboors) {
+		var sum = new Vector(0, 0);
 		var count = 0;
-		for (var i in neighboors)
-		{
+		for (var i in neighboors) {
 			if (neighboors[i] !== this)// && !neighboors[i].special)
 			{
 				sum.add(neighboors[i].location);
 				count++;
 			}
-		}	
+		}
 		sum.div(count);
 
 		return sum;
 	}
-}
+};

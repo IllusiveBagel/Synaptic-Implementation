@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { blastoff } from "./lib/world";
+import { blastOff } from "./lib/World";
 import "./App.css";
 
 function App() {
   useEffect(() => {
     const canvas = document.getElementById("canvas");
-    blastoff(canvas);
+    blastOff(canvas as HTMLCanvasElement);
   }, []);
 
 
