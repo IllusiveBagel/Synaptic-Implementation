@@ -1,23 +1,15 @@
 import { Creature } from "./Creature";
-import { isMobile } from "react-device-detect";
 import { IWorld } from "./Interfaces";
 
-export function blastOff(canvas: HTMLCanvasElement | null) {
-
+export function blastOff(canvas: HTMLCanvasElement | null, container: HTMLElement | null) {
 	var num = 20;
 	var fps = 100;
 
-	if (canvas !== null) {
+	if (canvas !== null && container !== null) {
 		var ctx = canvas.getContext('2d');
 
-		if (isMobile) {
-			canvas.width = window.screen.width;
-			canvas.height = window.screen.height;
-		}
-		else {
-			canvas.width = window.innerWidth;
-			canvas.height = window.innerHeight;
-		}
+		canvas.width = container.offsetWidth;
+		canvas.height = container.offsetHeight;
 
 		var world: IWorld = {
 			creatures: [],
