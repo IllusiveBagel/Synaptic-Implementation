@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Synaptic-Implementation/static/css/main.33c7fe67.css",
-    "main.js": "/Synaptic-Implementation/static/js/main.a41f2237.js",
+    "main.js": "/Synaptic-Implementation/static/js/main.ea27aeb9.js",
     "static/js/787.56f3b192.chunk.js": "/Synaptic-Implementation/static/js/787.56f3b192.chunk.js",
     "index.html": "/Synaptic-Implementation/index.html",
     "main.33c7fe67.css.map": "/Synaptic-Implementation/static/css/main.33c7fe67.css.map",
-    "main.a41f2237.js.map": "/Synaptic-Implementation/static/js/main.a41f2237.js.map",
+    "main.ea27aeb9.js.map": "/Synaptic-Implementation/static/js/main.ea27aeb9.js.map",
     "787.56f3b192.chunk.js.map": "/Synaptic-Implementation/static/js/787.56f3b192.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.33c7fe67.css",
-    "static/js/main.a41f2237.js"
+    "static/js/main.ea27aeb9.js"
   ]
 }
