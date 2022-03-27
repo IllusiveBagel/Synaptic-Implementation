@@ -35,7 +35,7 @@ export class Creature implements ICreature {
 		this.color = "#0066ff";
 	}
 
-	moveTo(networkOutput: any) {
+	moveTo(networkOutput: number[]) {
 		var force = new Vector(0, 0);
 
 		var target = new Vector(networkOutput[0] * this.world.width, networkOutput[1] * this.world.height);

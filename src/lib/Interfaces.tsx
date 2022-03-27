@@ -24,7 +24,7 @@ export interface ICreature {
     velocity: IVector;
     acceleration: IVector;
     color: string;
-    moveTo: AnyAnyFunction;
+    moveTo: NumberArrayFunction;
     draw: VoidFunction;
     update: VoidFunction;
     applyForce: VectorVoidFunction;
@@ -54,7 +54,7 @@ export interface IVector {
     dot: VectorNumberFunction;
     lerp: VectorNumberVectorFunction;
     dist: VectorNumberFunction;
-    copy: AnyFunction;
+    copy: VectorFunction;
     random: VectorFunction;
 }
 
@@ -63,7 +63,7 @@ type CoordinateVectorFunction = (x: number, y: number) => IVector;
 
 type VectorVectorFunction = (v: IVector) => IVector;
 
-type NumberVectorFunction = (s: number) => IVector;
+type NumberVectorFunction = (n: number) => IVector;
 
 type NumberFunction = () => number;
 
@@ -71,11 +71,9 @@ type VectorFunction = () => IVector;
 
 type VectorNumberFunction = (v: IVector) => number;
 
-type VectorNumberVectorFunction = (v: IVector, amt: number) => IVector;
+type VectorNumberVectorFunction = (v: IVector, n: number) => IVector;
 
-type AnyFunction = () => any;
-
-type AnyAnyFunction = (a: any) => any;
+type NumberArrayFunction = (n: number[]) => void;
 
 type VoidFunction = () => void;
 
